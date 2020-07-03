@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CommentList from '../components/CommentList';
-import { getComments } from '../store/modules/comments';
+import { getCommentsByPage } from '../store/modules/comments';
 
 
 function CommentListContainer() {
-  const { data, loading, error } = useSelector(state => state.comments.comments);
+  const { data, loading, error } = useSelector(state => state.comments.pageComments);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getComments())
+    dispatch(getCommentsByPage())
   }, [dispatch]);
 
   if (loading) return <div>Loading..</div>;

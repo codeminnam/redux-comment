@@ -5,9 +5,9 @@ const GET_COMMENTS = 'GET_COMMENTS';
 const GET_COMMENTS_SUCCESS = 'GET_COMMENTS_SUCCESS';
 const GET_COMMENTS_ERROR = 'GET_COMMENTS_ERROR';
 
-const GET_COMMENT = 'GET_COMMENT';
-const GET_COMMENT_SUCCESS = 'GET_COMMENT_SUCCESS';
-const GET_COMMENT_ERROR = 'GET_COMMENT_ERROR';
+const GET_PAGE = 'GET_PAGE';
+const GET_PAGE_SUCCESS = 'GET_PAGE_SUCCESS';
+const GET_PAGE_ERROR = 'GET_PAGE_ERROR';
 
 export const getComments = () => async dispatch => {
     dispatch({ type: GET_COMMENTS });
@@ -25,17 +25,17 @@ export const getComments = () => async dispatch => {
     }
 }
 
-export const getComment = id => async dispatch => {
-    dispatch({ type: GET_COMMENT, id });
+export const getCommentsByPage = id => async dispatch => {
+    dispatch({ type: GET_PAGE, id });
     try {
-        const comment = await commentsApi.getCommentById(id);
+        const pageComments = await commentsApi.getCommentsByPage();
         dispatch({
-            type: GET_COMMENT_SUCCESS,
-            comment
+            type: GET_PAGE_SUCCESS,
+            pageComments
         });
     } catch (e) {
         dispatch({
-            type: GET_COMMENT_ERROR,
+            type: GET_PAGE_ERROR,
             error: e
         });
     }
@@ -44,7 +44,7 @@ export const getComment = id => async dispatch => {
 
 export const initialState = {
     comments: reducerUtils.initial(),
-    comment: reducerUtils.initial()
+    pageComments: reducerUtils.initial()
 };
 
 
@@ -65,20 +65,20 @@ export default function comments(state = initialState, action) {
                 ...state,
                 comments: reducerUtils.error(action.error)
             };
-        case GET_COMMENT:
+        case GET_PAGE:
             return {
                 ...state,
-                comment: reducerUtils.loading()
+                pageComments: reducerUtils.loading()
             };
-        case GET_COMMENT_SUCCESS:
+        case GET_PAGE_SUCCESS:
             return {
                 ...state,
-                comment: reducerUtils.success(action.comment)
+                pageComments: reducerUtils.success(action.pageComments)
             };
-        case GET_COMMENT_ERROR:
+        case GET_PAGE_ERROR:
             return {
                 ...state,
-                comment: reducerUtils.error(action.error)
+                pageComments: reducerUtils.error(action.error)
             };
         default:
             return state;

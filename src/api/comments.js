@@ -5,7 +5,7 @@ export const getComments = async () => {
     return response.data;
 };
 
-export const getCommentById = async id => {
-    const response = await axios.get(`http://localhost:4000/comments/${id}`);
+export const getCommentsByPage = async () => {
+    const response = await axios.get(`http://localhost:4000/comments?_page=2&_limit=5`);
     return response.data;
 };
