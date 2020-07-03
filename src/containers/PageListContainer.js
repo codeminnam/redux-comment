@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PageList from '../components/PageList';
+import { getComments, getCommentsByPage } from '../store/modules/comments';
 
 function PageListContainer() {
+
+  const { length } = useSelector(state => state.comments.comments);
+  const dispatch = useDispatch();
+  const pageLength = length % 5 === 0 ? parseInt(length / 5) : parseInt(length / 5) + 1;
+
+  const onPageFetch = (pageNum) => {
+    const page = pageNum.i;
+    console.log("page fetch babe!" + page);
+    dispatch(getCommentsByPage(page));
+  };
+
+  useEffect(() => {
+    dispatch(getComments());
+  }, [dispatch]);
+
   return (
-    <PageList />
+    <PageList pageLength={pageLength} onPageFetch={onPageFetch} />
   );
 }
 

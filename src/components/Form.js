@@ -51,7 +51,7 @@ function Form() {
                 placeholder="2020-05-30"
                 required />
             <br />
-            <button type="submit" >등록</button>
+            <button type="submit">등록</button>
         </form>
     </FormStyle>
 }

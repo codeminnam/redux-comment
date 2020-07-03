@@ -20,16 +20,16 @@ const Page = styled.button`
   
 `;
 
-
-function PageList() {
+function PageList({ pageLength, onPageFetch }) {
     const pageArray = [];
 
-    pageArray.push(
-        // 임시로 페이지 하나만 설정했습니다.
-        <Page key="1">
-            1
-        </Page>
-    );
+    for (let i = 1; i < pageLength + 1; i++) {
+        pageArray.push(
+            <Page key={i} onClick={() => onPageFetch({ i })}>
+                {i}
+            </Page>
+        );
+    }
 
 
     return <PageListStyle>{pageArray}</PageListStyle>

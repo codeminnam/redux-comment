@@ -9,7 +9,8 @@ function CommentListContainer() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCommentsByPage())
+    if (!data) { dispatch(getCommentsByPage(1)); }
+    dispatch(getCommentsByPage(1));
   }, [dispatch]);
 
   if (loading) return <div>Loading..</div>;
@@ -19,8 +20,6 @@ function CommentListContainer() {
   return (
     <CommentList comments={data} />
   )
-
-
 }
 
 export default CommentListContainer;

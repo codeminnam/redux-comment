@@ -28,7 +28,7 @@ export const getComments = () => async dispatch => {
 export const getCommentsByPage = id => async dispatch => {
     dispatch({ type: GET_PAGE, id });
     try {
-        const pageComments = await commentsApi.getCommentsByPage();
+        const pageComments = await commentsApi.getCommentsByPage(id);
         dispatch({
             type: GET_PAGE_SUCCESS,
             pageComments
