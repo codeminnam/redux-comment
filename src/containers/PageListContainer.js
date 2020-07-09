@@ -11,7 +11,6 @@ function PageListContainer() {
 
   const onPageFetch = (pageNum) => {
     const page = pageNum.i;
-    console.log("page fetch babe!" + page);
     dispatch(getCommentsByPage(page));
   };
 

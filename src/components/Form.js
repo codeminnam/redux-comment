@@ -27,28 +27,38 @@ const FormStyle = styled.div`
     }
 `;
 
-function Form() {
+function Form({ formValues, onChangeField, onSubmit }) {
+    const { profile_url, author, content, createdAt } = formValues;
     return <FormStyle>
-        <form>
+        <form onSubmit={onSubmit}>
             <input type="text"
                 name="profile_url"
                 placeholder="https://picsum.photos/id/1/50/50"
+                value={profile_url}
+                onChange={onChangeField}
                 required />
             <br />
             <input
                 type="text"
                 name="author"
-                placeholder="작성자" />
+                placeholder="작성자"
+                value={author}
+                onChange={onChangeField}
+            />
             <br />
             <textarea
                 name="content"
                 placeholder="내용"
+                value={content}
+                onChange={onChangeField}
                 required></textarea>
             <br />
             <input
                 type="text"
                 name="createdAt"
                 placeholder="2020-05-30"
+                value={createdAt}
+                onChange={onChangeField}
                 required />
             <br />
             <button type="submit">등록</button>
