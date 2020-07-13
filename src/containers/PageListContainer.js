@@ -4,7 +4,6 @@ import PageList from '../components/PageList';
 import { getComments, getCommentsByPage } from '../store/modules/comments';
 
 function PageListContainer() {
-
   const { length } = useSelector(state => state.comments.comments);
   const dispatch = useDispatch();
   const pageLength = length % 5 === 0 ? parseInt(length / 5) : parseInt(length / 5) + 1;

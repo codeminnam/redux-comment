@@ -5,6 +5,10 @@ const GET_COMMENTS = 'GET_COMMENTS';
 const GET_COMMENTS_SUCCESS = 'GET_COMMENTS_SUCCESS';
 const GET_COMMENTS_ERROR = 'GET_COMMENTS_ERROR';
 
+const GET_COMMENT = 'GET_COMMENT';
+const GET_COMMENT_SUCCESS = 'GET_COMMENT_SUCCESS';
+const GET_COMMENT_ERROR = 'GET_COMMENT_ERROR';
+
 const GET_PAGE = 'GET_PAGE';
 const GET_PAGE_SUCCESS = 'GET_PAGE_SUCCESS';
 const GET_PAGE_ERROR = 'GET_PAGE_ERROR';
@@ -12,6 +16,14 @@ const GET_PAGE_ERROR = 'GET_PAGE_ERROR';
 const POST_COMMENT = 'POST_COMMENT';
 const POST_COMMENT_SUCCESS = 'POST_COMMENT_SUCCESS';
 const POST_COMMENT_ERROR = 'POST_COMMENT_ERROR';
+
+const EDIT_COMMENT = 'EDIT_COMMENT';
+const EDIT_COMMENT_SUCCESS = 'EDIT_COMMENT_SUCCESS';
+const EDIT_COMMENT_ERROR = 'EDIT_COMMENT_ERROR';
+
+const DELETE_COMMENT = 'DELETE_COMMENT';
+const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS';
+const DELETE_COMMENT_ERROR = 'DELETE_COMMENT_ERROR';
 
 export const getComments = () => async dispatch => {
     dispatch({ type: GET_COMMENTS });
@@ -27,7 +39,23 @@ export const getComments = () => async dispatch => {
             error: e
         });
     }
-}
+};
+
+export const getComment = id => async dispatch => {
+    dispatch({ type: GET_COMMENT });
+    try {
+        const comment = await commentsApi.getCommentById(id);
+        dispatch({
+            type: GET_COMMENT_SUCCESS,
+            comment
+        });
+    } catch (e) {
+        dispatch({
+            type: GET_COMMENT_ERROR,
+            error: e
+        });
+    }
+};
 
 export const getCommentsByPage = id => async dispatch => {
     dispatch({ type: GET_PAGE, id });
@@ -43,7 +71,7 @@ export const getCommentsByPage = id => async dispatch => {
             error: e
         });
     }
-}
+};
 
 export const postComment = form => async dispatch => {
     dispatch({ type: POST_COMMENT });
@@ -59,7 +87,39 @@ export const postComment = form => async dispatch => {
             error: e
         })
     }
-}
+};
+
+export const editComment = (id, form) => async dispatch => {
+    dispatch({ type: EDIT_COMMENT });
+    try {
+        const comment = await commentsApi.editComment(id, form);
+        dispatch({
+            type: EDIT_COMMENT_SUCCESS,
+            comment
+        })
+    } catch (e) {
+        dispatch({
+            type: EDIT_COMMENT_ERROR,
+            error: e
+        })
+    }
+};
+
+export const deleteComment = id => async dispatch => {
+    dispatch({ type: DELETE_COMMENT });
+    try {
+        const comment = await commentsApi.deleteComment(id);
+        dispatch({
+            type: DELETE_COMMENT_SUCCESS,
+            comment
+        })
+    } catch (e) {
+        dispatch({
+            type: DELETE_COMMENT_ERROR,
+            error: e
+        })
+    }
+};
 
 export const initialState = {
     comments: reducerUtils.initial(),
@@ -82,6 +142,21 @@ export default function comments(state = initialState, action) {
             return {
                 ...state,
                 comments: reducerUtils.error(action.error)
+            };
+        case GET_COMMENT:
+            return {
+                ...state,
+                comment: reducerUtils.loading()
+            };
+        case GET_COMMENT_SUCCESS:
+            return {
+                ...state,
+                comment: reducerUtils.success(action.comment)
+            };
+        case GET_COMMENT_ERROR:
+            return {
+                ...state,
+                comment: reducerUtils.error(action.error)
             };
         case GET_PAGE:
             return {
@@ -109,6 +184,36 @@ export default function comments(state = initialState, action) {
                 comment: reducerUtils.success(action.comment)
             };
         case POST_COMMENT_ERROR:
+            return {
+                ...state,
+                comment: reducerUtils.error(action.error)
+            };
+        case EDIT_COMMENT:
+            return {
+                ...state,
+                comment: reducerUtils.loading()
+            };
+        case EDIT_COMMENT_SUCCESS:
+            return {
+                ...state,
+                comment: reducerUtils.success(action.comment)
+            };
+        case EDIT_COMMENT_ERROR:
+            return {
+                ...state,
+                comment: reducerUtils.error(action.error)
+            };
+        case DELETE_COMMENT:
+            return {
+                ...state,
+                comment: reducerUtils.loading()
+            };
+        case DELETE_COMMENT_SUCCESS:
+            return {
+                ...state,
+                comment: reducerUtils.success(action.comment)
+            };
+        case DELETE_COMMENT_ERROR:
             return {
                 ...state,
                 comment: reducerUtils.error(action.error)
