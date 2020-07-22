@@ -1,5 +1,5 @@
 import * as commentsApi from '../../api/comments';
-import { reducerUtils } from '../../lib/asyncUtils';
+import { reducerPageUtils, reducerCommentsUtils, reducerCommentUtils } from '../../lib/asyncUtils';
 
 const GET_COMMENTS = 'GET_COMMENTS';
 const GET_COMMENTS_SUCCESS = 'GET_COMMENTS_SUCCESS';
@@ -31,7 +31,7 @@ export const getComments = () => async dispatch => {
         const comments = await commentsApi.getComments();
         dispatch({
             type: GET_COMMENTS_SUCCESS,
-            comments
+            payload: comments
         });
     } catch (e) {
         dispatch({
@@ -57,13 +57,16 @@ export const getComment = id => async dispatch => {
     }
 };
 
-export const getCommentsByPage = id => async dispatch => {
-    dispatch({ type: GET_PAGE, id });
+export const getCommentsByPage = page => async dispatch => {
+    dispatch({ type: GET_PAGE });
     try {
-        const pageComments = await commentsApi.getCommentsByPage(id);
+        const pageComments = await commentsApi.getCommentsByPage(page);
         dispatch({
             type: GET_PAGE_SUCCESS,
-            pageComments
+            payload: {
+                pageComments,
+                page
+            }
         });
     } catch (e) {
         dispatch({
@@ -122,8 +125,9 @@ export const deleteComment = id => async dispatch => {
 };
 
 export const initialState = {
-    comments: reducerUtils.initial(),
-    pageComments: reducerUtils.initial()
+    comments: reducerCommentsUtils.initial(),
+    pageComments: reducerPageUtils.initial(),
+    comment: reducerCommentUtils.initial()
 };
 
 export default function comments(state = initialState, action) {
@@ -131,92 +135,92 @@ export default function comments(state = initialState, action) {
         case GET_COMMENTS:
             return {
                 ...state,
-                comments: reducerUtils.loading()
+                comments: reducerCommentsUtils.loading()
             };
         case GET_COMMENTS_SUCCESS:
             return {
                 ...state,
-                comments: reducerUtils.success(action.comments)
+                comments: reducerCommentsUtils.success(action.comments)
             };
         case GET_COMMENTS_ERROR:
             return {
                 ...state,
-                comments: reducerUtils.error(action.error)
+                comments: reducerCommentsUtils.error(action.error)
             };
         case GET_COMMENT:
             return {
                 ...state,
-                comment: reducerUtils.loading()
+                comment: reducerCommentUtils.loading()
             };
         case GET_COMMENT_SUCCESS:
             return {
                 ...state,
-                comment: reducerUtils.success(action.comment)
+                comment: reducerCommentUtils.success(action.comment)
             };
         case GET_COMMENT_ERROR:
             return {
                 ...state,
-                comment: reducerUtils.error(action.error)
+                comment: reducerCommentUtils.error(action.error)
             };
         case GET_PAGE:
             return {
                 ...state,
-                pageComments: reducerUtils.loading()
+                pageComments: reducerPageUtils.loading()
             };
         case GET_PAGE_SUCCESS:
             return {
                 ...state,
-                pageComments: reducerUtils.success(action.pageComments)
+                pageComments: reducerPageUtils.success(action.payload)
             };
         case GET_PAGE_ERROR:
             return {
                 ...state,
-                pageComments: reducerUtils.error(action.error)
+                pageComments: reducerPageUtils.error(action.error)
             };
         case POST_COMMENT:
             return {
                 ...state,
-                comment: reducerUtils.loading()
+                comment: reducerCommentUtils.loading()
             }
         case POST_COMMENT_SUCCESS:
             return {
                 ...state,
-                comment: reducerUtils.success(action.comment)
+                comment: reducerCommentUtils.success(action.comment)
             };
         case POST_COMMENT_ERROR:
             return {
                 ...state,
-                comment: reducerUtils.error(action.error)
+                comment: reducerCommentUtils.error(action.error)
             };
         case EDIT_COMMENT:
             return {
                 ...state,
-                comment: reducerUtils.loading()
+                comment: reducerCommentUtils.loading()
             };
         case EDIT_COMMENT_SUCCESS:
             return {
                 ...state,
-                comment: reducerUtils.success(action.comment)
+                comment: reducerCommentUtils.success(action.comment)
             };
         case EDIT_COMMENT_ERROR:
             return {
                 ...state,
-                comment: reducerUtils.error(action.error)
+                comment: reducerCommentUtils.error(action.error)
             };
         case DELETE_COMMENT:
             return {
                 ...state,
-                comment: reducerUtils.loading()
+                comment: reducerCommentUtils.loading()
             };
         case DELETE_COMMENT_SUCCESS:
             return {
                 ...state,
-                comment: reducerUtils.success(action.comment)
+                comment: reducerCommentUtils.success(action.comment)
             };
         case DELETE_COMMENT_ERROR:
             return {
                 ...state,
-                comment: reducerUtils.error(action.error)
+                comment: reducerCommentUtils.error(action.error)
             };
         default:
             return state;
