@@ -17,22 +17,24 @@ const Page = styled.button`
         color: #fff;
   `}
   margin-right: 3px;
-  
 `;
 
-function PageList({ pageLength, onPageFetch }) {
-    const pageArray = [];
+function PageList({ page, pageLength, onPageFetch }) {
+  const page_count = Math.ceil(pageLength / 5);
+  const pageArray = [];
 
-    for (let i = 1; i < pageLength + 1; i++) {
-        pageArray.push(
-            <Page key={i} onClick={() => onPageFetch({ i })}>
-                {i}
-            </Page>
-        );
-    }
+  for (let i = 1; i <= page_count; i++) {
+    pageArray.push(
+      <Page
+        key={i}
+        onClick={() => onPageFetch(i)}
+        active={(parseInt(page) === i) ? true : false}>
+        {i}
+      </Page>
+    );
+  }
 
-
-    return <PageListStyle>{pageArray}</PageListStyle>
+  return <PageListStyle>{pageArray}</PageListStyle>
 }
 
 export default PageList;

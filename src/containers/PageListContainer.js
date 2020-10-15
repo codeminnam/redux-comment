@@ -1,24 +1,33 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PageList from '../components/PageList';
-import { getComments, getCommentsByPage } from '../store/modules/comments';
+import { getComments, getCommentsByPage, setCurrentPage } from '../store/modules/comments';
 
 function PageListContainer() {
-  const { length } = useSelector(state => state.comments.comments);
-  const dispatch = useDispatch();
-  const pageLength = length % 5 === 0 ? parseInt(length / 5) : parseInt(length / 5) + 1;
+  const { data, loading, error } = useSelector(state => state.comments.comments);
+  const current_Page = useSelector(state => state.comments.page);
 
-  const onPageFetch = (pageNum) => {
-    const page = pageNum.i;
-    dispatch(getCommentsByPage(page));
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getComments());
   }, [dispatch]);
 
+  const onPageFetch = (page) => {
+    dispatch(getCommentsByPage(page));
+    dispatch(setCurrentPage(page));
+  };
+
+  if (loading) return <div>로딩중...</div>;
+  if (error) return <div>에러 발생!</div>;
+  if (!data) return null;
+
   return (
-    <PageList pageLength={pageLength} onPageFetch={onPageFetch} />
+    <PageList
+      page={current_Page}
+      pageLength={data.length}
+      onPageFetch={onPageFetch}
+    />
   );
 }
 
