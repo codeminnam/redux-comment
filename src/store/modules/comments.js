@@ -1,5 +1,5 @@
 import * as commentsApi from '../../api/comments';
-import { reducerPageUtils, reducerCommentsUtils, reducerCommentUtils } from '../../lib/asyncUtils';
+import { reducerPageCommentsUtils, reducerCommentsUtils, reducerCommentUtils, formInit } from '../../lib/asyncUtils';
 
 const GET_COMMENTS = 'GET_COMMENTS';
 const GET_COMMENTS_SUCCESS = 'GET_COMMENTS_SUCCESS';
@@ -24,6 +24,9 @@ const EDIT_COMMENT_ERROR = 'EDIT_COMMENT_ERROR';
 const DELETE_COMMENT = 'DELETE_COMMENT';
 const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS';
 const DELETE_COMMENT_ERROR = 'DELETE_COMMENT_ERROR';
+
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+const CHANGE_FORM = 'CHANGE_FORM';
 
 export const getComments = () => async dispatch => {
     dispatch({ type: GET_COMMENTS });
@@ -124,10 +127,29 @@ export const deleteComment = id => async dispatch => {
     }
 };
 
+export const setCurrentPage = page => dispatch => {
+    dispatch({
+        type: SET_CURRENT_PAGE,
+        payload: { page }
+    });
+}
+
+export const changeForm = (target) => dispatch => {
+    dispatch({
+        type: CHANGE_FORM,
+        payload: {
+            name: target.name,
+            value: target.value,
+        }
+    });
+}
+
 export const initialState = {
     comments: reducerCommentsUtils.initial(),
-    pageComments: reducerPageUtils.initial(),
-    comment: reducerCommentUtils.initial()
+    pageComments: reducerPageCommentsUtils.initial(),
+    comment: reducerCommentUtils.initial(),
+    page: 1,
+    form: formInit()
 };
 
 export default function comments(state = initialState, action) {
@@ -140,7 +162,7 @@ export default function comments(state = initialState, action) {
         case GET_COMMENTS_SUCCESS:
             return {
                 ...state,
-                comments: reducerCommentsUtils.success(action.comments)
+                comments: reducerCommentsUtils.success(action.payload)
             };
         case GET_COMMENTS_ERROR:
             return {
@@ -165,17 +187,17 @@ export default function comments(state = initialState, action) {
         case GET_PAGE:
             return {
                 ...state,
-                pageComments: reducerPageUtils.loading()
+                pageComments: reducerPageCommentsUtils.loading()
             };
         case GET_PAGE_SUCCESS:
             return {
                 ...state,
-                pageComments: reducerPageUtils.success(action.payload)
+                pageComments: reducerPageCommentsUtils.success(action.payload)
             };
         case GET_PAGE_ERROR:
             return {
                 ...state,
-                pageComments: reducerPageUtils.error(action.error)
+                pageComments: reducerPageCommentsUtils.error(action.error)
             };
         case POST_COMMENT:
             return {
@@ -222,6 +244,22 @@ export default function comments(state = initialState, action) {
                 ...state,
                 comment: reducerCommentUtils.error(action.error)
             };
+        case SET_CURRENT_PAGE:
+            return {
+                ...state,
+                page: action.payload.page
+            }
+        case CHANGE_FORM:
+            return {
+                ...state,
+                form: {
+                    ...state.form,
+                    data: {
+                        ...state.form.data,
+                        [action.payload.name]: action.payload.value
+                    }
+                }
+            }
         default:
             return state;
     }
