@@ -1,28 +1,31 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Form from '../components/Form';
-import { useInput } from '../hooks/useInput';
-import { postComment } from '../store/modules/comments';
+import { getComments, getCommentsByPage, postComment, editComment, setCurrentPage, changeForm } from '../store/modules/comments';
 
 function FormContainer() {
-    const dispatch = useDispatch();
-    const { length } = useSelector(state => state.comments.comments);
-    const { form, onChangeField, reset } = useInput();
-    const nextItemId = length + 1;
+    const { form, page } = useSelector(state => state.comments);
 
-    const handleSubmit = e => {
+    const dispatch = useDispatch();
+
+    const onChangeField = e => {
+        dispatch(changeForm(e.target));
+    };
+
+    const handleSubmit = async e => {
         e.preventDefault();
-        dispatch(postComment({
-            id: nextItemId,
-            profile_url: form.profile_url,
-            author: form.author,
-            content: form.content,
-            createdAt: form.createdAt
-        }));
-        reset();
+        if (form.method === 'post') {
+            await dispatch(postComment(form.data));
+            await dispatch(getCommentsByPage());
+            await dispatch(getComments());
+            await dispatch(setCurrentPage(1));
+        } else if (form.method === 'put') {
+            await dispatch(editComment(form.data));
+            await dispatch(getCommentsByPage(page));
+        }
     }
     return (
-        <Form formValues={form} onChangeField={onChangeField} onSubmit={handleSubmit} />
+        <Form form={form} onChangeField={onChangeField} onSubmit={handleSubmit} />
     )
 }
 
