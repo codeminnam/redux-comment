@@ -17,23 +17,24 @@ const Page = styled.button`
         color: #fff;
   `}
   margin-right: 3px;
-  
 `;
 
+function PageList({ page, pageLength, onPageFetch }) {
+  const page_count = Math.ceil(pageLength / 5);
+  const pageArray = [];
 
-function PageList(){
-    
-    const pageArray = [];
-    
+  for (let i = 1; i <= page_count; i++) {
     pageArray.push(
-        // 임시로 페이지 하나만 설정했습니다.
-        <Page key="1">
-            1
-        </Page>
+      <Page
+        key={i}
+        onClick={() => onPageFetch(i)}
+        active={(parseInt(page) === i) ? true : false}>
+        {i}
+      </Page>
     );
-    
+  }
 
-    return <PageListStyle>{pageArray}</PageListStyle>
+  return <PageListStyle>{pageArray}</PageListStyle>
 }
 
 export default PageList;
