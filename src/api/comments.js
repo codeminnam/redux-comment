@@ -20,8 +20,8 @@ export const postComment = async (data) => {
     return response.data;
 };
 
-export const editComment = async (id, data) => {
-    const response = await axios.put(`http://localhost:4000/comments/${id}`, data);
+export const editComment = async (data) => {
+    const response = await axios.put(`http://localhost:4000/comments/${data.id}`, data);
     return response.data;
 }
 
