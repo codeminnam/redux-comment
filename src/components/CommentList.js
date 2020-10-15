@@ -4,7 +4,6 @@ import styled from "styled-components";
 const Comment = styled.div`
     padding: 7px 10px;
     text-align : left;
-
 	& > img {
         vertical-align : middle;
         margin-right : 10px;
@@ -35,7 +34,7 @@ const Button = styled.div`
 	}
 `;
 
-function CommentList({ comments, onEditClick, onDeleteClick }) {
+function CommentList({ comments, onEditFormClick, onDeleteClick }) {
     return (
         comments.map(comment =>
             <Comment key={comment.id}>
@@ -48,8 +47,10 @@ function CommentList({ comments, onEditClick, onDeleteClick }) {
                     {comment.content}
                 </Content>
                 <Button>
-                    <a onClick={() => onEditClick(comment.id)}>수정</a>
-                    <a onClick={() => onDeleteClick(comment.id)}>삭제</a>
+                    <a onClick={() => onEditFormClick(comment.id)}>수정</a>
+                    <a onClick={() => {
+                        if (window.confirm('Delete?')) onDeleteClick(comment.id)
+                    }}>삭제</a>
                 </Button>
                 <hr />
             </Comment>
