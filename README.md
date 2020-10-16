@@ -12,6 +12,9 @@ $ npm start
 ```
 
 ## Screenshot
+![complete](https://user-images.githubusercontent.com/33533176/96259526-b2bd7980-0ff8-11eb-8474-287b55edfd00.png)
+
+## Function
 ![complete](https://user-images.githubusercontent.com/12206933/83601436-8e15b780-a5ab-11ea-91ad-04a302579c90.gif)
 
 
