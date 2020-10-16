@@ -2,25 +2,35 @@ import React from 'react';
 import styled from "styled-components";
 
 const PageListStyle = styled.div`
-  margin-bottom : 20px;
+  margin: 10px 0;
   text-align : center;
 `;
 
 const Page = styled.button`
-  padding: 0.375rem 0.75rem;
-  border-radius: 0.25rem;
+  padding: 0.275rem 0.75rem;
+  background-color: #fff;
+  border-radius: 4px;
   font-size: 1rem;
   line-height: 1.5;
   border: 1px solid lightgray;
+  cursor: pointer;
+  &:hover {
+    background-color: #ffc82c;
+    border-color: #ffc82c;
+    color: #fff;
+    opacity: 0.7;
+  }
   ${({ active }) => active && `
-        background: gray;
+        background-color: #ffc82c;
+        border-color: #ffc82c;
         color: #fff;
   `}
   margin-right: 3px;
+  
 `;
 
 function PageList({ page, pageLength, onPageFetch }) {
-  const page_count = Math.ceil(pageLength / 5);
+  const page_count = Math.ceil(pageLength / 4);
   const pageArray = [];
 
   for (let i = 1; i <= page_count; i++) {
@@ -33,6 +43,7 @@ function PageList({ page, pageLength, onPageFetch }) {
       </Page>
     );
   }
+
 
   return <PageListStyle>{pageArray}</PageListStyle>
 }
