@@ -51,7 +51,7 @@ function Form({ form, onChangeField, onSubmit }) {
         <form onSubmit={onSubmit}>
             <input type="text"
                 name="profile_url"
-                placeholder="https://picsum.photos/id/1/50/50"
+                placeholder="Image link"
                 value={form.data.profile_url}
                 onChange={onChangeField}
                 required />
