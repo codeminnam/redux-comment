@@ -8,8 +8,9 @@ import FormContainer from './containers/FormContainer';
 function App() {
 
   const AppContainer = styled.div`
-    border: 1px solid lightgray;
     background-color: #fff;
+    box-shadow:  13px 13px 26px #cfcfcf, 
+             -13px -13px 26px #ffffff;
   `;
 
   const Header = styled.div`
@@ -18,7 +19,7 @@ function App() {
   `;
 
   const ListContainer = styled.div`
-    padding: 20px;
+    padding: 20px 0;
   `;
 
   return (

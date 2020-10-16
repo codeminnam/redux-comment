@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 
 const Comment = styled.div`
-    padding: 7px 10px;
+    padding: 10px 20px;
     text-align : left;
     vertical-align: center;
     display: flex;
